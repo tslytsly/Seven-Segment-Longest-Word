@@ -1,7 +1,11 @@
 let badLetters = /[gkmqvwxzio]/;
 let longestWord = "";
 let words;
-let testWord = "Hello";
+let dispWord;
+let ratioSlider;
+let wordInput;
+let ratio;
+let wordChanged = true;
 
 let nums = [0x7E, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B, 0x77, 0x1f, 0x4e, 0x3d, 0x4f, 0x47];
 let sevChars = {
@@ -68,17 +72,20 @@ let sevChars = {
 	"y": 0x33,
 	"Z": 0x6D,
 	"z": 0x6D,
-  }
-let index = 0;
+}
+
 let displays = [];
 
 function preload() {
 	words = loadStrings('assets/words.txt');
 }
 
-
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	let canvas = createCanvas(windowWidth, 400);
+	canvas.parent('canvas');
+	ratioSlider = createSlider(.25, 2, 1, .1);
+	ratioSlider.parent('slider');
+
 	for (let testWord of words) {
 
 		if (testWord.length <= longestWord.length) {
@@ -90,18 +97,42 @@ function setup() {
 
 		longestWord = testWord;
 	}
-	frameRate(3);
-
-	for (let i = 0; i < floor(windowWidth/160); i++) {
-		displays.push(new SevSeg(0x7e, i*160, 0));
-	}
+	dispWord = longestWord;
+	wordInput = createInput(dispWord);
+	wordInput.parent('inputBox');
+	wordInput.input(inpEvnt);
 }
 
 function draw() {
 	background(0);
+
+	if (wordChanged) {
+		wordChanged = false;
+		displays = [];
+
+		if (dispWord.length > 11) {
+			num = dispWord.length - 10;
+			ratio = 1 - (num * .04);
+		} else {
+			ratio = 1;
+		}
+
+		ratioSlider.value(ratio);
+
+		for (let i = 0; i < dispWord.length; i++) {
+			let chr = dispWord.charAt(i);
+			displays.push(new SevSeg(sevChars[chr], i * 160, 0, ratio));
+		}
+	}
+
 	for (let segs of displays) {
-		segs.updateVal(nums[index]);
+		// segs.updateVal(nums[index]);
+		segs.updateRatio(ratioSlider.value());
 		segs.draw();
 	}
-	index = (index + 1) % nums.length;
+}
+
+function inpEvnt() {
+	dispWord = this.value();
+	wordChanged = true;
 }
