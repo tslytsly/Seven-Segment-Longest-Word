@@ -43,26 +43,35 @@ function draw() {
 
 	if (wordChanged) {
 		wordChanged = false;
-		displays = [];
-
-		if (dispWord.length > 11) {
-			num = dispWord.length - 10;
-			ratio = 1 - (num * .04);
-		} else {
-			ratio = 1;
-		}
-
-		ratioSlider.value(ratio);
-
-		for (let i = 0; i < dispWord.length; i++) {
-			let chr = dispWord.charAt(i);
-			displays.push(new SevSeg(sevChars[chr], i * 160, 0, ratio));
-		}
+		updateSegs();
 	}
 
 	for (let segs of displays) {
 		segs.updateRatio(ratioSlider.value());
 		segs.draw();
+	}
+}
+
+function updateSegs() {
+	displays = [];
+
+	if (dispWord.length > 11) {
+		num = dispWord.length - 10;
+		ratio = 1 - (num * .04);
+	} else {
+		ratio = 1;
+	}
+
+	ratioSlider.value(ratio);
+	let arrOffset = 0;
+	for (let i = 0; i < dispWord.length; i++) {
+		let chr = dispWord.charAt(i);
+		if (chr === "." && i != 0 && (displays[i-1-arrOffset].val & 0x80) == 0) {
+			displays[i-1-arrOffset].val |= 0x80;
+			arrOffset++;
+		} else {
+			displays.push(new SevSeg(sevChars[chr], (i - arrOffset) * 160, 0, ratio));
+		}
 	}
 }
 

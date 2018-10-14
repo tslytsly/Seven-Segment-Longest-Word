@@ -39,6 +39,9 @@ class SevSeg {
         let midY = 140 * this.ratio;
         let lwrY = 160 * this.ratio;
         let btmY = 260 * this.ratio;
+        let decWid = 20 * this.ratio;
+        let decHgt = 20 * this.ratio;
+        let decX = 170 * this.ratio;
 
         // A
         fill(getColor(this.val, 6))
@@ -61,7 +64,9 @@ class SevSeg {
         // G
         fill(getColor(this.val, 0));
         rect(hrzX, midY, hrzWid, hrzHgt, 10, 10);
+        // Dec Point
+        fill(getColor(this.val, 7))
+        rect(decX, btmY, decWid, decHgt, 10, 10);
         pop();
-
     }
 }
