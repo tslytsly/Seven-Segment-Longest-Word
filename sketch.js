@@ -9,6 +9,7 @@ let regenBtn;
 let ratio;
 let wordChanged = true;
 let sevChars;
+let colRadio;
 
 let displays = [];
 
@@ -34,6 +35,13 @@ function setup() {
 	wordInput = createInput('');
 	wordInput.parent('inputBox');
 	wordInput.input(inpEvnt);
+
+	colRadio = createRadio();
+	colRadio.option('red');
+	colRadio.option('green');
+	colRadio.option('blue');
+	colRadio.parent('colRadio');
+	colRadio.value('red');
 
 	getLongestWord();
 }
@@ -66,8 +74,8 @@ function updateSegs() {
 	let arrOffset = 0;
 	for (let i = 0; i < dispWord.length; i++) {
 		let chr = dispWord.charAt(i);
-		if (chr === "." && i != 0 && (displays[i-1-arrOffset].val & 0x80) == 0) {
-			displays[i-1-arrOffset].val |= 0x80;
+		if (chr === "." && i != 0 && (displays[i - 1 - arrOffset].val & 0x80) == 0) {
+			displays[i - 1 - arrOffset].val |= 0x80;
 			arrOffset++;
 		} else {
 			displays.push(new SevSeg(sevChars[chr], (i - arrOffset) * 160, 0, ratio));

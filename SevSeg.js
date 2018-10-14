@@ -16,10 +16,21 @@ class SevSeg {
 
     draw() {
         function getColor(cv, shift) {
-            let r = 255;
+            let r = 0;
             let g = 0;
             let b = 0;
-            let a = 40 + 255 * ((cv >> shift) & 1);
+            let a = 40 + 200 * ((cv >> shift) & 1);
+            switch (colRadio.value()) {
+                case 'green':
+                    g = 255;
+                    break;
+                case 'blue':
+                    b = 255;
+                    break;
+                default:
+                    r = 255;
+                    break;
+            }
             return color(r, g, b, a);
         }
 
