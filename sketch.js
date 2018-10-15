@@ -1,3 +1,17 @@
+/*
+My version of Daniel Shiffman's Coding Challenge:
+https://thecodingtrain.com/CodingChallenges/117-seven-segment.html
+
+Calculates the longest word that can be displayed on Seven-Segment displays (using Tom Scott's example https://youtu.be/zp4BMR88260)
+Creates multiple Seven Segment Displays and shows the word.
+
+User can alter the list of "bad letters" and also free type their own words.
+
+Added Decimal point.
+
+By Tom Sealey
+*/
+
 let badLetters = /[gkmqvwxzio]/;
 let longestWord
 let words;
