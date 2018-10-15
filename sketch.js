@@ -9,6 +9,8 @@ User can alter the list of "bad letters" and also free type their own words.
 
 Added Decimal point.
 
+Thanks to rwaldron (https://gist.github.com/rwaldron/0dd696800d2a09786ec2) for the Json containing the characters.
+
 By Tom Sealey
 */
 
